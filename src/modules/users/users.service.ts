@@ -1,0 +1,51 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
+import { UserFilter } from './users.type';
+import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
+import bcrypt from 'bcrypt';
+
+@Injectable()
+export class UsersService {
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
+
+  async findAll(query: UserFilter): Promise<User[]> {
+    const where: any = {};
+    if (query.id) {
+      where.id = query.id;
+    }
+    if (query.name) {
+      where.name = query.name;
+    }
+    if (query.code) {
+      where.code = query.code;
+    }
+    if (query.email) {
+      where.email = query.email;
+    }
+    return this.usersRepository.find({ where });
+  }
+
+  async findOne(id: number): Promise<User | null> {
+    return this.usersRepository.findOne({ where: { id } });
+  }
+
+  async findOneByName(name: string): Promise<User | null> {
+    return this.usersRepository.findOne({ where: { name } });
+  }
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    createUserDto.password = hashedPassword;
+    return this.usersRepository.save(createUserDto);
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User | null> {
+    await this.usersRepository.update(id, updateUserDto);
+    return this.findOne(id);
+  }
+}
