@@ -24,3 +24,27 @@ CREATE TABLE IF NOT EXISTS roles (
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 建立 users_roles 資料表
+CREATE TABLE IF NOT EXISTS users_roles (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL,
+    deleted boolean default false,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+-- 建立 items 資料表
+CREATE TABLE IF NOT EXISTS items (
+    id SERIAL PRIMARY KEY,
+    type varchar(50) not null,
+    name varchar(255) not null,
+    code varchar(255) not null,
+    duration int not null default 15,
+	deleted boolean default false,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

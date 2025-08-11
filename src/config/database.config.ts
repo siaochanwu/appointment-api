@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from 'src/modules/users/entities/user.entity';
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { UserRole } from 'src/modules/userRoles/entities/userRole.entity';
+import { Item } from 'src/modules/items/entities/item.entity';
 
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -11,7 +12,7 @@ export const databaseConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   schema: process.env.DB_SCHEMA,
-  entities: [User, Role, UserRole],
+  entities: [User, Role, UserRole, Item],
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
 };
