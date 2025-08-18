@@ -58,3 +58,20 @@ CREATE TABLE IF NOT EXISTS rooms (
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 建立 members 資料表
+CREATE TABLE IF NOT EXISTS members (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(10) NOT NULL,
+    email VARCHAR(255),
+    birthday date,
+    mobile varchar(50)  UNIQUE NOT NULL,
+    address varchar(255),
+    created_user_id int,
+    is_active BOOLEAN DEFAULT true,
+    deleted boolean DEFAULT false,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+

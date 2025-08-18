@@ -9,6 +9,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { UserRolesModule } from './modules/userRoles/userRoles.module';
 import { ItemsModule } from './modules/items/items.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
+import { MembersModule } from './modules/members/members.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { RoomsModule } from './modules/rooms/rooms.module';
     UserRolesModule,
     ItemsModule,
     RoomsModule,
+    MembersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
