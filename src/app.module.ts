@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { UserRolesModule } from './modules/userRoles/userRoles.module';
 import { ItemsModule } from './modules/items/items.module';
+import { RoomsModule } from './modules/rooms/rooms.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ItemsModule } from './modules/items/items.module';
     RolesModule,
     UserRolesModule,
     ItemsModule,
+    RoomsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
