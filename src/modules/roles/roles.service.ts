@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { RoleFilter } from './roles.type';
 import { CreateRoleDto, UpdateRoleDto } from './dto/roles.dto';
 
@@ -13,7 +13,7 @@ export class RolesService {
   ) {}
 
   async findAll(query: RoleFilter): Promise<Role[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<Role> = {};
     if (query.id) {
       where.id = query.id;
     }

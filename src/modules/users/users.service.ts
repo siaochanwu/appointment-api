@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { User } from './entities/user.entity';
 import { UserFilter } from './users.type';
 import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
@@ -14,7 +14,7 @@ export class UsersService {
   ) {}
 
   async findAll(query: UserFilter): Promise<User[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<User> = {};
     if (query.id) {
       where.id = query.id;
     }

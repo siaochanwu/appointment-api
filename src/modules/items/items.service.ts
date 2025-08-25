@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Item } from './entities/item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { ItemFilter } from './items.type';
 import { CreateItemDto, UpdateItemDto } from './dto/items.dto';
 
@@ -12,7 +12,7 @@ export class ItemsService {
   ) {}
 
   async findAll(query: ItemFilter): Promise<Item[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<Item> = {};
     if (query.id) {
       where.id = query.id;
     }

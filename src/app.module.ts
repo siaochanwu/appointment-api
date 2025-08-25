@@ -10,6 +10,7 @@ import { UserRolesModule } from './modules/userRoles/userRoles.module';
 import { ItemsModule } from './modules/items/items.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { MembersModule } from './modules/members/members.module';
+import { DoctorSchedulesModule } from './modules/doctorSchedules/doctorSchedules.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MembersModule } from './modules/members/members.module';
     ItemsModule,
     RoomsModule,
     MembersModule,
+    DoctorSchedulesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

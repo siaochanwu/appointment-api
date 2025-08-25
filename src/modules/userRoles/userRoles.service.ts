@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { UserRole } from './entities/userRole.entity';
 import { User } from '../users/entities/user.entity';
 import { Role } from '../roles/entities/role.entity';
@@ -23,7 +23,7 @@ export class UserRolesService {
   ) {}
 
   async findAll(query: UserRolesFilter): Promise<UserRole[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<UserRole> = {};
     if (query.id) {
       where.id = query.id;
     }

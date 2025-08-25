@@ -75,3 +75,40 @@ CREATE TABLE IF NOT EXISTS members (
     "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 建立 appointments 資料表
+CREATE TABLE IF NOT EXISTS appointments (
+    id SERIAL PRIMARY KEY,
+    doctor_id int NOT NULL,
+    room_id int NOT NULL,
+    member_id int NOT NULL,
+    appointment_date date NOT NULL,
+    start_time time NOT NULL,
+    end_time time,
+    status int default 1 NOT NULL,
+    service_item_id int NOT NULL,
+	deleted boolean DEFAULT false,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE appointment.appointments ADD CONSTRAINT appointments_users_fk FOREIGN KEY (doctor_id) REFERENCES appointment.users(id);
+ALTER TABLE appointment.appointments ADD CONSTRAINT appointments_rooms_fk FOREIGN KEY (room_id) REFERENCES appointment.rooms(id);
+ALTER TABLE appointment.appointments ADD CONSTRAINT appointments_members_fk FOREIGN KEY (member_id) REFERENCES appointment.members(id);
+ALTER TABLE appointment.appointments ADD CONSTRAINT appointments_items_fk FOREIGN KEY (service_item_id) REFERENCES appointment.items(id);
+
+-- 建立 doctor_schedules 資料表
+CREATE TABLE IF NOT EXISTS doctor_schedules (
+    id SERIAL PRIMARY KEY,
+    doctor_id int NOT NULL,
+    room_id int NOT NULL,
+    day_of_week int NOT null,
+    start_time time not null, 
+    end_time time not null,
+    is_active BOOLEAN DEFAULT true,
+	deleted boolean default false,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE appointment.appointments ADD CONSTRAINT doctor_schedules_users_fk FOREIGN KEY (doctor_id) REFERENCES appointment.users(id);
+ALTER TABLE appointment.appointments ADD CONSTRAINT doctor_schedules_rooms_fk FOREIGN KEY (room_id) REFERENCES appointment.rooms(id);

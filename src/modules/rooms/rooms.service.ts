@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { Room } from './entities/room.entity';
 import { RoomFilter } from './rooms.type';
 
@@ -11,7 +11,7 @@ export class RoomsService {
   ) {}
 
   async findAll(query: RoomFilter): Promise<Room[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<Room> = {};
     if (query.id) {
       where.id = query.id;
     }

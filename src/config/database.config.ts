@@ -5,6 +5,8 @@ import { UserRole } from 'src/modules/userRoles/entities/userRole.entity';
 import { Item } from 'src/modules/items/entities/item.entity';
 import { Room } from 'src/modules/rooms/entities/room.entity';
 import { Member } from 'src/modules/members/entities/member.entity';
+import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
+import { DoctorSchedule } from 'src/modules/doctorSchedules/entities/doctorSchedule.entity';
 
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -14,7 +16,16 @@ export const databaseConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   schema: process.env.DB_SCHEMA,
-  entities: [User, Role, UserRole, Item, Room, Member],
+  entities: [
+    User,
+    Role,
+    UserRole,
+    Item,
+    Room,
+    Member,
+    Appointment,
+    DoctorSchedule,
+  ],
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
 };

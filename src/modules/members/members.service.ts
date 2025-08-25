@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, FindOptionsWhere } from 'typeorm';
 import { Member } from './entities/member.entity';
 import { MemberFilter } from './members.type';
 import { CreateMemberDto, UpdateMemberDto } from './dto/members.dto';
@@ -18,7 +18,7 @@ export class MembersService {
   ) {}
 
   async findAll(query: MemberFilter): Promise<Member[]> {
-    const where: any = {};
+    const where: FindOptionsWhere<Member> = {};
     if (query.id) {
       where.id = query.id;
     }
