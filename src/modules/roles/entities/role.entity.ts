@@ -8,6 +8,13 @@ import {
 } from 'typeorm';
 import { UserRole } from 'src/modules/userRoles/entities/userRole.entity';
 
+export enum RoleCode {
+  ADMIN = 'Admin',
+  DEAN = 'Dean',
+  DOCTOR = 'Doctor',
+  NURSE = 'Nurse',
+}
+
 @Entity('roles')
 export class Role {
   @PrimaryGeneratedColumn()
@@ -17,7 +24,7 @@ export class Role {
   name: string;
 
   @Column()
-  code: string;
+  code: RoleCode;
 
   @Column({ default: false })
   deleted: boolean;

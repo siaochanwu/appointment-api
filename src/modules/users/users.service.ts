@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { UserFilter } from './users.type';
 import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 import * as bcrypt from 'bcrypt';
+import { RoleCode } from '../roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {
@@ -53,5 +54,19 @@ export class UsersService {
     }
     await this.usersRepository.update(id, updateUserDto);
     return this.findOne(id);
+  }
+
+  async getDoctors(): Promise<User[]> {
+    return this.usersRepository.find({
+      where: {
+        isActive: true,
+        userRoles: {
+          role: {
+            code: RoleCode.DOCTOR,
+          },
+        },
+      },
+      select: ['id', 'name', 'code'],
+    });
   }
 }

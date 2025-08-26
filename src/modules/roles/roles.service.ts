@@ -4,6 +4,7 @@ import { Role } from './entities/role.entity';
 import { Repository, FindOptionsWhere } from 'typeorm';
 import { RoleFilter } from './roles.type';
 import { CreateRoleDto, UpdateRoleDto } from './dto/roles.dto';
+import { RoleCode } from './entities/role.entity';
 
 @Injectable()
 export class RolesService {
@@ -30,7 +31,7 @@ export class RolesService {
     return this.rolesRepository.findOne({ where: { id } });
   }
 
-  async findOneByCode(code: string): Promise<Role | null> {
+  async findOneByCode(code: RoleCode): Promise<Role | null> {
     return this.rolesRepository.findOne({ where: { code } });
   }
 
