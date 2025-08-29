@@ -16,7 +16,10 @@ import { DoctorScheduleFilter } from './doctorSchedules.type';
 import { CreateDoctorScheduleDto } from './dto/doctorSchedules.dto';
 import { User } from '../users/entities/user.entity';
 import { Room } from '../rooms/entities/room.entity';
-import { Appointment } from '../appointments/entities/appointment.entity';
+import {
+  Appointment,
+  AppointmentStatus,
+} from '../appointments/entities/appointment.entity';
 
 @Injectable()
 export class DoctorSchedulesService {
@@ -219,30 +222,63 @@ export class DoctorSchedulesService {
       startDate,
       endDate,
     );
+
+    // 查詢指定日期範圍內的現有預約（排除已取消的預約）
+    const existingAppointments = await this.appointmentsRepository.find({
+      where: {
+        doctorId,
+        appointmentDate: Between(startDate, endDate),
+        deleted: false,
+        status: Between(AppointmentStatus.SCHEDULED, AppointmentStatus.NO_SHOW),
+      },
+    });
+
     const slots: { startTime: string; endTime: string; date: string }[] = [];
 
     for (const s of schedule) {
-      const start = new Date(`${startDate}T${s.startTime}`);
-      const end = new Date(`${endDate}T${s.endTime}`);
+      const scheduleDate = s.date.toISOString().split('T')[0];
+      const start = new Date(`${scheduleDate}T${s.startTime}`);
+      const end = new Date(`${scheduleDate}T${s.endTime}`);
 
       let current = new Date(start);
 
-      const formatTime = (d: Date) => d.toTimeString().slice(0, 5); // 轉成 "HH:MM"
+      const formatTime = (d: Date) => d.toTimeString().slice(0, 5);
 
       while (current < end) {
         const next = new Date(current.getTime() + intervalMinutes * 60000);
         if (next > end) break;
 
-        slots.push({
-          startTime: formatTime(current),
-          endTime: formatTime(next),
-          date: startDate,
+        const slotStartTime = formatTime(current);
+        const slotEndTime = formatTime(next);
+
+        // 檢查此時段是否與現有預約衝突
+        const isBooked = existingAppointments.some((appointment) => {
+          const appointmentDate = appointment.appointmentDate.split('T')[0];
+
+          // 只檢查同一天的預約
+          if (appointmentDate !== scheduleDate) return false;
+
+          // 檢查時間是否重疊
+          return this.timeOverlaps(
+            `${slotStartTime}:01`,
+            `${slotEndTime}:01`,
+            `${appointment.startTime}:00`,
+            `${appointment.endTime}:00`,
+          );
         });
+
+        // 只有未被預約的時段才加入結果
+        if (!isBooked) {
+          slots.push({
+            startTime: slotStartTime,
+            endTime: slotEndTime,
+            date: scheduleDate,
+          });
+        }
 
         current = next;
       }
     }
-    console.log(slots);
 
     return slots;
   }

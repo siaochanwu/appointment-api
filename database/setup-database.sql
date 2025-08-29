@@ -37,6 +37,9 @@ CREATE TABLE IF NOT EXISTS users_roles (
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
+ALTER TABLE appointment.users_roles ADD CONSTRAINT users_roles_users_fk FOREIGN KEY (user_id) REFERENCES appointment.users(id);
+ALTER TABLE appointment.users_roles ADD CONSTRAINT users_roles_roles_fk FOREIGN KEY (role_id) REFERENCES appointment.roles(id);
+
 -- 建立 items 資料表
 CREATE TABLE IF NOT EXISTS items (
     id SERIAL PRIMARY KEY,
@@ -110,5 +113,5 @@ CREATE TABLE IF NOT EXISTS doctor_schedules (
     "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE appointment.appointments ADD CONSTRAINT doctor_schedules_users_fk FOREIGN KEY (doctor_id) REFERENCES appointment.users(id);
-ALTER TABLE appointment.appointments ADD CONSTRAINT doctor_schedules_rooms_fk FOREIGN KEY (room_id) REFERENCES appointment.rooms(id);
+ALTER TABLE appointment.doctor_schedules ADD CONSTRAINT doctor_schedules_users_fk FOREIGN KEY (doctor_id) REFERENCES appointment.users(id);
+ALTER TABLE appointment.doctor_schedules ADD CONSTRAINT doctor_schedules_rooms_fk FOREIGN KEY (room_id) REFERENCES appointment.rooms(id);

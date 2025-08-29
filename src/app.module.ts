@@ -11,6 +11,7 @@ import { ItemsModule } from './modules/items/items.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { MembersModule } from './modules/members/members.module';
 import { DoctorSchedulesModule } from './modules/doctorSchedules/doctorSchedules.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { DoctorSchedulesModule } from './modules/doctorSchedules/doctorSchedules
     RoomsModule,
     MembersModule,
     DoctorSchedulesModule,
+    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
