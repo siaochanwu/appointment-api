@@ -5,4 +5,9 @@ export class CreateUserDto {
   email: string;
 }
 
-export class UpdateUserDto extends CreateUserDto {}
+export class UpdateUserDto {
+  name?: string;
+  code?: string;
+  password?: string;
+  email?: string;
+}
