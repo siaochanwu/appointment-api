@@ -4,8 +4,6 @@ import { UsersService } from 'src/modules/users/users.service';
 import { CreateUserDto, UpdateUserDto } from 'src/modules/users/dto/users.dto';
 import { UserFilter } from 'src/modules/users/users.type';
 import { User } from 'src/modules/users/entities/user.entity';
-import { ServerOpeningEvent } from 'typeorm';
-import { spec } from 'node:test/reporters';
 
 describe('UsersController', () => {
   let controller: UsersController;
