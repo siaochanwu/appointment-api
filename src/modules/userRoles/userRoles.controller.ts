@@ -13,7 +13,7 @@ export class UserRolesController {
     return this.userRolesService.findAll(query);
   }
 
-  @Get('id')
+  @Get(':id')
   findOne(@Param('id') id: number) {
     return this.userRolesService.findOne(id);
   }
